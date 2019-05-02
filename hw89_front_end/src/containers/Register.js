@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {registerUser} from "../store/actions/usersActions";
 import {connect} from 'react-redux';
-import FormElement from "../components/UI/FormElement";
+import FormElement from "../components/FormElement";
 
 class Register extends Component {
     state = {
@@ -25,40 +25,39 @@ class Register extends Component {
     };
 
     render() {
-        return (<div className="main_register_div">
-                <div className="register_div">
-                    <h2>Register New User</h2>
-                    {this.props.error && this.props.error.global && (
-                        <div>{this.props.error.global}
-                        </div>
-                    )}
-                    <form onSubmit={this.submitFormHandler} className="form">
-                        <FormElement
-                            propertyName="username"
-                            title="Username"
-                            type="text"
-                            value={this.state.username}
-                            onChange={this.inputChangeHandler}
-                            error={this.getFieldError('title')}
-                            placeholder="Enter your desired username"
-                            autocomplete="new-username"
-                        />
-                        <FormElement
-                            propertyName="password"
-                            title="Password"
-                            type="password"
-                            value={this.state.password}
-                            onChange={this.inputChangeHandler}
-                            error={this.getFieldError('password')}
-                            placeholder="Enter new secure password"
-                            autocomplete="new-password"
-                        />
-                        <div>
-                            <button type="submit" className="submit_btn">Register</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+        return (
+            <Fragment>
+                <h2>Register New User</h2>
+                {this.props.error && this.props.error.global && (
+                    <div>{this.props.error.global}
+                    </div>
+                )}
+                <form onSubmit={this.submitFormHandler}>
+                    <FormElement
+                        propertyName="username"
+                        title="Username"
+                        type="text"
+                        value={this.state.username}
+                        onChange={this.inputChangeHandler}
+                        error={this.getFieldError('username')}
+                        placeholder="Enter your desired username"
+                        autocomplete="new-username"
+                    />
+                    <FormElement
+                        propertyName="password"
+                        title="Password"
+                        type="password"
+                        value={this.state.password}
+                        onChange={this.inputChangeHandler}
+                        error={this.getFieldError('password')}
+                        placeholder="Enter new secure password"
+                        autocomplete="new-password"
+                    />
+                    <div>
+                        <button type="submit" className="submit_btn">Register</button>
+                    </div>
+                </form>
+            </Fragment>
         )
     };
 }

@@ -4,10 +4,11 @@ const User = require('../models/User');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-    const user = new User(req.body);
-
+    const user = new User({
+        username: req.body.username,
+        password: req.body.password
+    });
     user.generateToken();
-    console.log('this is user', user);
 
     try {
         await user.save();

@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import FormElement from "../components/UI/FormElement";
+import React, {Fragment, Component} from 'react';
+import FormElement from "../components/FormElement";
 import {loginUser} from "../store/actions/usersActions";
 import {connect} from "react-redux";
 
@@ -27,43 +27,42 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="main_login_div">
-                <div className="login_div">
-                    <h2>Login</h2>
-                    {this.props.error &&
-                    <div className="alert">
-                        {this.props.error.error || this.props.error.global}
-                    </div>}
-                    <form onSubmit={this.submitFormHandler} className="form">
-                        <FormElement
-                            propertyName="username"
-                            title="Username"
-                            type="text"
-                            value={this.state.username}
-                            onChange={this.inputChangeHandler}
-                            placeholder="Enter username you registered with"
-                            autocomplete="current-username"
-                            error={this.getFieldError('title')}
-                        />
+            <Fragment>
+                <h2>Login</h2>
+                {this.props.error &&
+                <div className="alert">
+                    {this.props.error.error || this.props.error.global}
+                </div>}
+                <form onSubmit={this.submitFormHandler}>
+                    <FormElement
+                        propertyName="username"
+                        title="Username"
+                        type="text"
+                        value={this.state.username}
+                        onChange={this.inputChangeHandler}
+                        placeholder="Enter username you registered with"
+                        autocomplete="current-username"
+                        error={this.getFieldError('username')}
+                    />
 
 
-                        <FormElement
-                            propertyName="password"
-                            title="Password"
-                            type="password"
-                            value={this.state.password}
-                            onChange={this.inputChangeHandler}
-                            placeholder="Enter password"
-                            autocomplete="current-password"
-                            error={this.getFieldError('password')}
-                        />
 
-                        <div>
+                    <FormElement
+                        propertyName="password"
+                        title="Password"
+                        type="password"
+                        value={this.state.password}
+                        onChange={this.inputChangeHandler}
+                        placeholder="Enter password"
+                        autocomplete="current-password"
+                        error={this.getFieldError('password')}
+                    />
+
+                    <div>
                             <button type="submit">Login</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                    </div>
+                </form>
+            </Fragment>
         );
     }
 }

@@ -2,95 +2,109 @@
   display: grid;
   height: 100%;
   width: 100%;
+  position: relative;
 }
 
 .h2 {
   display: grid;
   justify-self: center;
-  margin-top: 0;
+}
+
+.column {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 10px;
+  grid-column-gap: 10px;
+}
+
+.one_artist {
+  display: grid;
+  grid-column: 1 / 4;
+  text-align: center;
+}
+
+.artist_p,
+.album_p {
+  grid-column: 1 / 4;
+  justify-self: center;
+}
+
+.yt_frame {
+  height: fit-content;
+}
+
+.track_thumbnail {
+  grid-column: 2 / 4;
+  justify-self: center;
 }
 
 .img_thumbnail {
-  display: grid;
-  grid-row: 1 / 3;
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
 }
 
 .main_nav {
   display: grid;
-  grid-template-columns: repeat(3, auto);
-  background: azure;
-  padding: 20px;
-}
-
-.user_menu,
-.anonymous_menu {
-  display: grid;
   grid-template-columns: auto auto;
 }
 
-.menu_li {
-  display: inline;
-  margin-left: 50px;
+.add_album {
+  display: grid;
+  justify-self: right;
+}
+
+.form_div {
+  display: grid;
+  grid-template-columns: auto;
+  width: 70%;
 }
 
 .form {
   display: grid;
-  grid-template-columns: auto;
   grid-row-gap: 10px;
+  padding: 10px;
 }
 
-.element {
+.nav_bar {
   display: grid;
-  grid-template-columns: auto;
+  grid-template-columns: 20% 20% 20% 40%;
 }
 
-.login_div,
-.register_div,
-.comment_form,
-.comments_list_div {
+.nav_bar2 {
   display: grid;
-  justify-self: center;
-  background: azure;
-  padding: 30px;
-  margin-top: 20px;
+  grid-template-columns: repeat(2, auto);
+  padding-left: 100px;
 }
 
-.comment_form {
-  width: 50%;
+.invalid-feedback,
+.alert {
+  color: red;
 }
 
-.comments_list_div {
+.history_div {
   display: grid;
-  grid-template-columns: auto auto;
-  grid-template-rows: auto auto;
+  grid-template-columns: repeat(3, 30%);
+  margin-bottom: 10px;
 }
 
-.comments_list_p {
-  grid-column: 1 / 3;
+.yt_btn {
+  height: 20px;
 }
 
-.main_register_div,
-.main_login_div,
-.main_comment_div,
-.comment_form_div {
-  display: grid;
+.iframe_wrapper {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 20;
 }
 
-.input {
-  border-radius: 5px;
+.yt_frame {
+  position: absolute;
+  top: 20%;
+  left: 20%;
 }
 
-.post_thumbnail {
-  display: grid;
-  grid-template-columns: auto auto auto;
-  grid-template-rows: auto auto;
-  background: azure;
-  margin-top: 20px;
-  padding: 20px;
-}
-
-.post_text_div {
-  grid-column: 2 / 4;
+.tracks_div {
+  color: rgb(0, 0, 238);
 }
