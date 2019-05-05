@@ -10,10 +10,6 @@ const history = require('./app/trackHistory');
 
 const app = express();
 
-mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
