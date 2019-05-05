@@ -46,7 +46,6 @@ router.get('/', tryAuth, async (req, res) => {
                 if (album.published === false && album.user.equals(req.user._id) || album.published === true) result.push(album);
             });
 
-            console.log(albums);
             if (result) return res.send(result);
             else return res.sendStatus(404);
         } else {

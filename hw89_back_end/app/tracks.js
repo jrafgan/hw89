@@ -29,7 +29,6 @@ router.get('/', tryAuth, async (req, res) => {
 
             const result = [];
             tracks.map(track => {
-            console.log('tracks before map', tracks);
                 if (track.published === false && track.user.equals(req.user._id) || track.published === true) result.push(track);
             });
 
@@ -44,8 +43,7 @@ router.get('/', tryAuth, async (req, res) => {
     } catch (e) {
         return res.status(500).send(e);
     }
-})
-;
+});
 
 router.post('/', auth, (req, res) => {
     const trackData = req.body;
