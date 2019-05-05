@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import {registerUser} from "../store/actions/usersActions";
 import {connect} from 'react-redux';
 import FormElement from "../components/FormElement";
@@ -26,13 +26,13 @@ class Register extends Component {
 
     render() {
         return (
-            <Fragment>
+            <div className="form_div">
                 <h2>Register New User</h2>
                 {this.props.error && this.props.error.global && (
                     <div>{this.props.error.global}
                     </div>
                 )}
-                <form onSubmit={this.submitFormHandler}>
+                <form className="form" onSubmit={this.submitFormHandler}>
                     <FormElement
                         propertyName="username"
                         title="Username"
@@ -57,7 +57,7 @@ class Register extends Component {
                         <button type="submit" className="submit_btn">Register</button>
                     </div>
                 </form>
-            </Fragment>
+            </div>
         )
     };
 }

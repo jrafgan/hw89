@@ -16,7 +16,7 @@ class TrackHistory extends Component {
                     return <div key={item._id} className="history_div">
                         <span>{item.trackTitle}</span>
                         <span>{item.artistName}</span>
-                        <span>{item.datetime}</span>
+                        <span>{new Date(item.datetime).toLocaleString()}</span>
                     </div>
                 }) : null}
             </Fragment>
@@ -27,7 +27,6 @@ class TrackHistory extends Component {
 
 
 const mapStateToProps = state => ({
-
     history: state.users.history,
 });
 

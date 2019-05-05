@@ -4,13 +4,14 @@ import {connectRouter, routerMiddleware} from "connected-react-router";
 import usersReducer from "./reducers/usersReducer";
 import thunkMiddleware from "redux-thunk";
 import {loadFromLocalStorage, saveToLocalStorage} from "./localStorage";
-import postReducer from "./reducers/postReducer";
+import axios from '../axios-api';
+import musicReducer from "./reducers/musicReducer";
 
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
     router: connectRouter(history),
-    posts: postReducer,
+    music: musicReducer,
     users: usersReducer,
 });
 
@@ -34,6 +35,15 @@ store.subscribe(()=> {
             user: store.getState().users.user
         }
     })
+});
+
+axios.interceptors.request.use(config=>{
+    try {
+      config.headers['Authorization'] = store.getState().users.user.token
+    } catch (e) {
+        // do nothing, user is not logged in
+    }
+    return config;
 });
 
 export default store;

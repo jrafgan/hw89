@@ -32,7 +32,6 @@ class Main extends Component {
 
         return (
             <div className="App">
-                <h2 className="h2">First.FM</h2>
                 <div className="list_div">
                     <div className="column">
                         <p className="artist_p">Исполнители</p>
@@ -52,7 +51,7 @@ class Main extends Component {
 }
 
 const mapStateToProps = state => ({
-    artists: state.response.artists,
+    artists: state.music.artists,
 });
 
 const mapDispatchToProps = dispatch => ({

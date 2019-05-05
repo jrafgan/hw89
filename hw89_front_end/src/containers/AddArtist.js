@@ -20,9 +20,9 @@ class AddArtist extends Component {
                     formData.append(key, this.state[key]);
                 }
             });
-            this.props.addAlbum(formData);
+            this.props.addArtist(formData);
         } else {
-            this.props.addAlbum(this.state)
+            this.props.addArtist(this.state)
         }
     };
 
@@ -45,7 +45,7 @@ class AddArtist extends Component {
                 <div className="main_nav">
                 </div>
                 <div className="artist_form">
-                    <h3 className="h3">Добавить артиста</h3>
+                    <h3 className="h3">Добавить исполнителя</h3>
                     <form className="form" onSubmit={this.submitFormHandler}>
                         <label htmlFor="name">Исполнитель</label>
                         <input type="text" name="name" id="name" value={this.state.name} onChange={this.inputChangeHandler}/>

@@ -16,34 +16,40 @@ export const fetchTracksSuccess = tracks => ({type: FETCH_TRACKS_SUCCESS, tracks
 export const fetchTracksByArtistSuccess = tracks => ({type: FETCH_TRACKSBYARTIST_SUCCESS, tracks});
 export const fetchTracksByAlbumSuccess = tracks => ({type: FETCH_TRACKSBYALBUM_SUCCESS, tracks});
 
-export const getArtists = () => {
+export const getArtists = id => {
     return dispatch => {
-        return axios.get('/artists').then(
+        let path = '/artists';
+
+        if (id) {
+            path += '?id=' + id;
+        }
+        return axios.get(path).then(
             response => {
-                dispatch(fetchArtistsSuccess(response.data));
+
+                if (!id) {
+                    dispatch(fetchArtistsSuccess(response.data));
+                } else {
+                    dispatch(fetchArtistSuccess(response.data));
+                }
             });
     };
 };
-
-export const getArtist = (id) => {
+export const getAlbums = artistId => {
     return dispatch => {
-        return axios.get('/artists?id=' + id).then(
-            response => {
-                dispatch(fetchArtistSuccess(response.data));
-            });
-    };
-};
+        let path = '/albums';
 
-export const getAlbums = (artistId) => {
-    return dispatch => {
-        return axios.get('/albums?artist=' + artistId).then(
+        if (artistId) {
+            path += '?artist=' + artistId;
+        }
+        return axios.get(path).then(
             response => {
                 dispatch(fetchAlbumsSuccess(response.data));
+                console.log(response.data);
             });
     };
 };
 
-export const getAlbum = (id) => {
+export const getAlbum = id => {
     return dispatch => {
         return axios.get('/albums/' + id).then(
             response => {
@@ -61,35 +67,112 @@ export const getTracks = () => {
             });
     };
 };
-
-export const getTracksByArtist = artistId => {
+export const getTracksByAlbum = albumId => {
     return dispatch => {
-        return axios.get('/tracks?artist='+artistId).then(
-            response => {
-                dispatch(fetchTracksByArtistSuccess(response.data));
-            });
-    };
-};
-
-export const getTracksByAlbum = (albumId) => {
-    return dispatch => {
-        return axios.get('/tracks?album='+albumId).then(
+        return axios.get('/tracks?album=' + albumId).then(
             response => {
                 dispatch(fetchTracksSuccess(response.data));
+                console.log(response.data);
             });
     };
 };
 
 export const createArtist = artistData => {
-    return dispatch => {
-        return axios.post('/artists', artistData).then(
+    return (dispatch, getState) => {
+        const token = getState().users.user.token;
+        const config = {headers: {'Authorization': token}};
+        return axios.post('/artists', artistData, config).then(
             response => {
+                console.log(response.data);
             });
     };
 };
 
 export const createAlbum = albumData => {
-    return dispatch => {
-        return axios.post('/albums', albumData);
+    return (dispatch, getState) => {
+        const token = getState().users.user.token;
+        const config = {headers: {'Authorization': token}};
+        return axios.post('/albums', albumData, config).then(
+            response => {
+                console.log(response.data);
+            });
     };
 };
+
+export const createTrack = albumData => {
+    return (dispatch, getState) => {
+        const token = getState().users.user.token;
+        const config = {headers: {'Authorization': token}};
+        return axios.post('/tracks', albumData, config).then(
+            response => {
+                console.log(response.data);
+            });
+    };
+};
+
+export const deleteTrack = id => {
+    return (dispatch, getState) => {
+        const token = getState().users.user.token;
+        const config = {headers: {'Authorization': token}};
+        return axios.delete('/tracks?id=' + id, config).then(
+            response => {
+                console.log(response.data);
+            });
+    };
+};
+
+export const deleteArtist = id => {
+    return (dispatch, getState) => {
+        const token = getState().users.user.token;
+        const config = {headers: {'Authorization': token}};
+        return axios.delete('/artists?id=' + id, config).then(
+            response => {
+                console.log(response.data);
+            });
+    };
+};
+
+export const deleteAlbum = id => {
+    return (dispatch, getState) => {
+        const token = getState().users.user.token;
+        const config = {headers: {'Authorization': token}};
+        return axios.delete('/albums?id=' + id, config).then(
+            response => {
+                console.log(response.data);
+            });
+    };
+};
+
+export const toggleTrackPublish = id => {
+    return (dispatch, getState) => {
+        const token = getState().users.user.token;
+        const config = {headers: {'Authorization': token}};
+        return axios.post('/tracks/' + id + '/toggle_published', config).then(
+            response => {
+                console.log(response.data);
+            });
+    };
+};
+
+export const toggleAlbumPublish = id => {
+    return (dispatch, getState) => {
+        const token = getState().users.user.token;
+        const config = {headers: {'Authorization': token}};
+        return axios.post('/albums/' + id + '/toggle_published', config).then(
+            response => {
+                console.log(response.data);
+            });
+    };
+};
+
+export const toggleArtistPublish = id => {
+    return (dispatch, getState) => {
+        const token = getState().users.user.token;
+        const config = {headers: {'Authorization': token}};
+        return axios.post('/artists/' + id + '/toggle_published', config).then(
+            response => {
+                console.log(response.data);
+            });
+    };
+};
+

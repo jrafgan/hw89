@@ -1,4 +1,4 @@
-import React, {Fragment, Component} from 'react';
+import React, {Component} from 'react';
 import FormElement from "../components/FormElement";
 import {loginUser} from "../store/actions/usersActions";
 import {connect} from "react-redux";
@@ -27,13 +27,13 @@ class Login extends Component {
 
     render() {
         return (
-            <Fragment>
+            <div className="form_div">
                 <h2>Login</h2>
                 {this.props.error &&
                 <div className="alert">
                     {this.props.error.error || this.props.error.global}
                 </div>}
-                <form onSubmit={this.submitFormHandler}>
+                <form className="form" onSubmit={this.submitFormHandler}>
                     <FormElement
                         propertyName="username"
                         title="Username"
@@ -62,7 +62,7 @@ class Login extends Component {
                             <button type="submit">Login</button>
                     </div>
                 </form>
-            </Fragment>
+            </div>
         );
     }
 }

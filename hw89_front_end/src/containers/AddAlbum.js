@@ -82,7 +82,7 @@ class AddAlbum extends Component {
 }
 
 const mapStateToProps = state => ({
-    artists: state.response.artists,
+    artists: state.music.artists,
 });
 
 const mapDispatchToProps = dispatch => ({

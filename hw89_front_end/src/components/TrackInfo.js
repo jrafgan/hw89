@@ -36,15 +36,17 @@ class TrackInfo extends Component {
         if (this.props.artist) console.log(this.props.artist);
         return (
             <div className="column">
-                {this.state.showPlayer ? <div className="iframe_wrapper" onClick={this.closePlayer}><div className="yt_frame">
-                    <iframe title="Test1"
-                            id="player"
-                            width="640"
-                            height="360"
-                            src={this.state.src}
-                            allowFullScreen
-                    />
-                </div></div> : null}
+                {this.state.showPlayer ? <div className="iframe_wrapper" onClick={this.closePlayer}>
+                    <div className="yt_frame">
+                        <iframe title="Test1"
+                                id="player"
+                                width="640"
+                                height="360"
+                                src={this.state.src}
+                                allowFullScreen
+                        />
+                    </div>
+                </div> : null}
                 <div className="one_artist">
                     {this.props.album ? <div className="artist_thumbnail" key={this.props.album.artist._id}>
                         <ImageThumbnail image={this.props.album.artist.image}/>
@@ -60,13 +62,15 @@ class TrackInfo extends Component {
                 <div className="track_thumbnail">
                     <p>Трэки</p>
                     {this.props.tracks ? this.props.tracks.map(track => {
-                        return <div key={track._id} id={track._id} onClick={this.props.user ? this.onSaveTrack : null} className={this.props.user ? "tracks_div" : null}>
+                        return <div key={track._id} id={track._id} onClick={this.props.user ? this.onSaveTrack : null}
+                                    className={this.props.user ? "tracks_div" : null}>
                             <span>{track.number}. </span>
                             <span id={track._id}> {track.title} </span>
                             <span> {track.duration} </span>
                             {track.youtube ?
                                 <img src={btnImg} onClick={this.handler} alt="btn" className="yt_btn"
                                      id={track.youtube}/> : null}
+                            <p className="not_published">{track.published ? '' : 'not published'}</p>
                         </div>
                     }) : null}
                 </div>
@@ -76,8 +80,8 @@ class TrackInfo extends Component {
 }
 
 const mapStateToProps = state => ({
-    album: state.response.album,
-    tracks: state.response.tracks,
+    album: state.music.album,
+    tracks: state.music.tracks,
     user: state.users.user
 
 });

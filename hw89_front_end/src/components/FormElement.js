@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 
 const FormElement = props => {
     return (
-        <div>
+        <Fragment>
             <label htmlFor={props.propertyName} >{props.title}</label>
                 <input type={props.type}
                        id={props.propertyName}
@@ -17,7 +17,7 @@ const FormElement = props => {
                 {props.error && (<div className="invalid-feedback">
                     {props.error}
                 </div>)}
-        </div>
+        </Fragment>
     );
 };
 
