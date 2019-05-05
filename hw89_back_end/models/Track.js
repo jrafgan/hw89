@@ -6,14 +6,30 @@ const TrackSchema = new Schema({
     type: String,
     required: true
   },
-  duration: String,
-  number: Number,
-  youtube: String,
+  published: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
   album: {
     type: Schema.Types.ObjectId,
     ref: 'Album',
     required: true
-  }
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  duration: {
+    type: String,
+    required: true
+  },
+  number: {
+    type: String,
+    required: true
+  },
+  youtube: String,
 });
 
 const Track = mongoose.model('Track', TrackSchema);
