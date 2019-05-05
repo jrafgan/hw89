@@ -14,9 +14,7 @@ const HistorySchema = new Schema({
         type: String,
         required: true
     },
-    datetime: {
-        type: String
-    }
+    datetime: { type : Date, default: Date.now }
 });
 
 HistorySchema.methods.date = function() {
