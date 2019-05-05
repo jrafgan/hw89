@@ -6,6 +6,9 @@ const config = require('../config');
 const Album = require('../models/Album');
 const Track = require('../models/Track');
 const router = express.Router();
+const auth = require('../middleware/auth');
+const permit = require('../middleware/permit');
+const tryAuth = require('../middleware/tryAuth');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -18,31 +21,41 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage});
 
-router.get('/', async (req, res) => {
+router.get('/', tryAuth, async (req, res) => {
 
-    if (req.query.artist) {
+    try {
+        let criteria = {artist: req.query.artist};
 
-        Album.find().populate('artist').sort({year: 1}).then( function(albums) {
+        if (!req.user) {
+            criteria = {
+                $and: [
+                    {published: true},
+                    {artist: req.query.artist}
+                ]
+            }
+        }
+        if (req.query.artist) {
+
+            let albums = await Album.find(criteria).populate('artist').sort({year: 1});
+
+            if (req.user && req.user.role === 'admin') {
+                return res.send(albums);
+            }
             const result = [];
-            albums.map(async (item, ndx) => {
-                if (item.artist._id == req.query.artist) {
-                    result.push(item);
-
-                    await Track.find({album: item._id}).then(function (track) {
-                        item.tracks = track.length;
-                    });
-
-                }
-
+            albums.map(album => {
+                if (album.published === false && album.user.equals(req.user._id) || album.published === true) result.push(album);
             });
 
-            if (result.length !== 0) res.send(result);
-            else res.sendStatus(404);
-        }).catch(() => res.sendStatus(500));
-    } else {
-        Album.find().populate('artist')
-            .then(albums => res.send(albums))
-            .catch(() => res.sendStatus(500));
+            console.log(albums);
+            if (result) return res.send(result);
+            else return res.sendStatus(404);
+        } else {
+            const albums = await Album.find().populate('artist');
+            if (albums) return res.send(albums);
+            else return res.sendStatus(500);
+        }
+    } catch (e) {
+        return res.status(500).send(e);
     }
 });
 
@@ -55,16 +68,42 @@ router.get('/:id', (req, res) => {
 });
 
 
-router.post('/', upload.single('image'), (req, res) => {
+router.post('/', [auth, upload.single('image')], (req, res) => {
     const albumData = req.body;
 
     if (req.file) {
         albumData.image = req.file.filename;
     }
+    albumData.user = req.user;
     const album = new Album(albumData);
     album.save()
-        .then(result => res.send(result))
+        .then(() => res.send({message: 'Ok'}))
         .catch(error => res.status(400).send(error));
+});
+
+router.post('/:id/toggle_published', [auth, permit('admin')], async (req, res) => {
+    const album = await Album.findById(req.params.id);
+    if (!album) {
+        return res.sendStatus(404);
+    }
+    album.published = !album.published;
+    await album.save();
+    return res.send(album);
+});
+
+router.delete('/', [auth, permit('admin')], async (req, res) => {
+    try {
+        const album = await Album.findById(req.query.id);
+        if (album) {
+            album.remove();
+            return res.status(200).send('Successfully deleted ' + album);
+        } else {
+            return res.status(400).send('Not found !');
+        }
+
+    } catch (error) {
+        return res.status(400).send(error)
+    }
 });
 
 module.exports = router;
